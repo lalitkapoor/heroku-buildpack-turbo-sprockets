@@ -539,15 +539,16 @@ WARNING
         if $?.success?
           puts "Bundle completed (#{"%.2f" % bundle_time}s)"
           log "bundle", :status => "success"
-          puts "Cleaning up the bundler cache."
-          instrument "ruby.bundle_clean" do
-            # Only show bundle clean output when not using default cache
-            if load_default_cache?
-              run "bundle clean > /dev/null"
-            else
-              pipe("#{bundle_bin} clean", out: "2> /dev/null")
-            end
-          end
+          puts "NOT Cleaning up the bundler cache. - DO THIS MANUALLY IF NEEDED"
+          # DO NOT CLEAN THE CACHE AS IT REMOVES THE GEMS OF THE OTHER RAILS APP
+          # instrument "ruby.bundle_clean" do
+          #   # Only show bundle clean output when not using default cache
+          #   if load_default_cache?
+          #     run "bundle clean > /dev/null"
+          #   else
+          #     pipe("#{bundle_bin} clean", out: "2> /dev/null")
+          #   end
+          # end
           cache.store ".bundle"
           @bundler_cache.store
 
